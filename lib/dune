@@ -1,0 +1,3 @@
+(library
+ (public_name aoc_2022)
+ (libraries containers))
