@@ -1,5 +1,7 @@
 open ContainersLabels
 
+let test_input = [ "A Y"; "B X"; "C Z" ]
+
 type player =
   | X
   | Y
@@ -60,27 +62,19 @@ let score_of_outcome ~game_state ~shape =
 
 let play_1 ~player ~opponent =
   match (player, opponent) with
-  | Rock, Rock -> { shape = player; game_state = Draw }
-  | Rock, Paper -> { shape = player; game_state = Lose }
-  | Rock, Scissor -> { shape = player; game_state = Win }
-  | Paper, Paper -> { shape = player; game_state = Draw }
-  | Paper, Rock -> { shape = player; game_state = Win }
-  | Paper, Scissor -> { shape = player; game_state = Lose }
-  | Scissor, Scissor -> { shape = player; game_state = Draw }
-  | Scissor, Rock -> { shape = player; game_state = Lose }
-  | Scissor, Paper -> { shape = player; game_state = Win }
+  | Rock, Rock | Paper, Paper | Scissor, Scissor ->
+      { shape = player; game_state = Draw }
+  | Rock, Paper | Paper, Scissor | Scissor, Rock ->
+      { shape = player; game_state = Lose }
+  | Rock, Scissor | Paper, Rock | Scissor, Paper ->
+      { shape = player; game_state = Win }
 
 let play_2 ~expected_game_state ~opponent =
   match (expected_game_state, opponent) with
-  | Win, Rock -> play_1 ~player:Paper ~opponent
-  | Win, Paper -> play_1 ~player:Scissor ~opponent
-  | Win, Scissor -> play_1 ~player:Rock ~opponent
-  | Lose, Rock -> play_1 ~player:Scissor ~opponent
-  | Lose, Paper -> play_1 ~player:Rock ~opponent
-  | Lose, Scissor -> play_1 ~player:Paper ~opponent
-  | Draw, Rock -> play_1 ~player:opponent ~opponent
-  | Draw, Paper -> play_1 ~player:opponent ~opponent
-  | Draw, Scissor -> play_1 ~player:opponent ~opponent
+  | Win, Rock | Lose, Scissor -> play_1 ~player:Paper ~opponent
+  | Win, Paper | Lose, Rock -> play_1 ~player:Scissor ~opponent
+  | Win, Scissor | Lose, Paper -> play_1 ~player:Rock ~opponent
+  | Draw, _ -> play_1 ~player:opponent ~opponent
 
 module A = struct
   let parsers =
@@ -104,7 +98,7 @@ module A = struct
     let instructions = l |> List.map ~f:parse_instructions in
     instructions |> List.map ~f:solve' |> List.fold_left ~f:( + ) ~init:0
 
-  let%test _ = solve [] = 1
+  let%test _ = solve test_input = 15
 end
 
 module B = struct
@@ -134,7 +128,7 @@ module B = struct
     let instructions = l |> List.map ~f:parse_instructions in
     instructions |> List.map ~f:solve' |> List.fold_left ~f:( + ) ~init:0
 
-  let%test _ = solve [] = 1
+  let%test _ = solve test_input = 12
 end
 
 let run () =

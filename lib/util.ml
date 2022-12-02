@@ -1,6 +1,7 @@
 open ContainersLabels
 
 let read_file name = CCIO.(with_in name read_lines_l)
+let read_file_as_string name = CCIO.(with_in name read_all)
 let parse fmt map line = try Some (Scanf.sscanf line fmt map) with _ -> None
 
 let rec try_parse parsers line =
@@ -39,3 +40,22 @@ let rec permutations l =
   | hd :: tl -> List.flatten (List.map ~f:(insert hd) (permutations tl))
 
 let array_flatten a = Array.(concat (to_list a))
+let check_newline s = if CCString.equal s "\\n" then "LOL" else s
+
+let print_string_list l =
+  List.iter
+    ~f:(fun s ->
+      let () = print_string (check_newline s) in
+      print_newline ()
+    )
+    l
+
+let print_string_array l =
+  Array.iter
+    ~f:(fun s ->
+      let () = print_string (check_newline s) in
+      print_newline ()
+    )
+    l
+
+let sum = List.fold_left ~f:( + ) ~init:0
