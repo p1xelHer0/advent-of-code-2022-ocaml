@@ -1,7 +1,6 @@
 open ContainersLabels
 
 let read_file name = CCIO.(with_in name read_lines_l)
-
 let parse fmt map line = try Some (Scanf.sscanf line fmt map) with _ -> None
 
 let rec try_parse parsers line =
@@ -22,7 +21,6 @@ let range a b =
   if a > b then List.rev (aux b a) else aux a b
 
 let sum = List.fold_left ~f:( + ) ~init:0
-
 let mean l = l |> sum |> fun n -> n / List.length l
 
 let median l =
