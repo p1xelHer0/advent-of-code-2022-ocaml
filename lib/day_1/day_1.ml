@@ -24,8 +24,7 @@ module A = struct
       l
       |> CCStringLabels.split ~by:"\n\n"
       |> map ~f:solve'
-      |> sort ~cmp:CCInt.compare
-      |> rev
+      |> sort ~cmp:(fun a b -> b - a)
       |> hd
     )
 
@@ -38,8 +37,7 @@ module B = struct
       l
       |> CCStringLabels.split ~by:"\n\n"
       |> map ~f:solve'
-      |> sort ~cmp:CCInt.compare
-      |> rev
+      |> sort ~cmp:(fun a b -> b - a)
       |> take 3
       |> Util.sum
     )
