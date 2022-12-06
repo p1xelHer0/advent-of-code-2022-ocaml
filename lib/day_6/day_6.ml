@@ -3,23 +3,17 @@ open ContainersLabels
 let test_input = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
 
 let solve' l distinct_markers =
-  let rec aux input string i =
+  let rec aux input mem i =
     match input with
     | [] -> failwith "end of file"
-    | c :: tl ->
-        if List.length string >= distinct_markers
+    | c :: tl -> (
+        if List.length mem >= distinct_markers
         then i
-        else if List.mem c string
-        then
-          let string' =
-            match
-              string |> Array.of_list |> Array.find_idx ~f:(Char.equal c)
-            with
-            | Some (i, _) -> List.drop (succ i) string @ [ c ]
-            | None -> string
-          in
-          aux tl string' (succ i)
-        else aux tl (string @ [ c ]) (succ i)
+        else
+          match mem |> Array.of_list |> Array.find_idx ~f:(Char.equal c) with
+          | Some (i', _) -> aux tl (List.drop (succ i') (mem @ [ c ])) (succ i)
+          | None -> aux tl (mem @ [ c ]) (succ i)
+      )
   in
   let input = String.to_list l in
   aux input [] 0
