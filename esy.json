@@ -18,6 +18,7 @@
     "@opam/containers": "3.10",
     "@opam/dune": "3.6.1",
     "@opam/oseq": "0.4",
+    "@opam/ppx_deriving": "5.2.1",
     "@opam/psq": "0.2.1",
     "@opam/rresult": "^0.7.0"
   },

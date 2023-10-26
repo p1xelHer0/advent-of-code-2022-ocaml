@@ -1,8 +1,8 @@
 (library
  (name day_13)
- (libraries aoc_2022 containers rresult oseq)
+ (libraries aoc_2022 containers rresult oseq angstrom)
  (inline_tests)
  (preprocess
-  (pps ppx_inline_test))
+  (pps ppx_inline_test ppx_deriving.show))
  (flags
   (:standard -open Aoc_2022)))

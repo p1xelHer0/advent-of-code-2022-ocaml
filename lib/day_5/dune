@@ -1,6 +1,6 @@
 (library
  (name day_5)
- (libraries aoc_2022)
+ (libraries aoc_2022 angstrom)
  (inline_tests)
  (preprocess
   (pps ppx_inline_test))

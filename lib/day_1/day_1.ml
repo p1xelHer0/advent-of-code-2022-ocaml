@@ -1,5 +1,7 @@
 open ContainersLabels
 
+let a = match true with true -> true | false -> false
+
 let test_input = "1000
 2000
 3000
@@ -15,7 +17,7 @@ let test_input = "1000
 
 10000"
 
-let solve' l =
+let sum l =
   l |> CCStringLabels.lines |> List.map ~f:int_of_string |> Util.sum
 
 module A = struct
@@ -23,7 +25,7 @@ module A = struct
     List.(
       l
       |> CCStringLabels.split ~by:"\n\n"
-      |> map ~f:solve'
+      |> map ~f:sum
       |> sort ~cmp:(fun a b -> b - a)
       |> hd
     )
@@ -36,7 +38,7 @@ module B = struct
     List.(
       l
       |> CCStringLabels.split ~by:"\n\n"
-      |> map ~f:solve'
+      |> map ~f:sum
       |> sort ~cmp:(fun a b -> b - a)
       |> take 3
       |> Util.sum
